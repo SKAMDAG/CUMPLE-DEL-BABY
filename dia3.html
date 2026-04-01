@@ -50,7 +50,14 @@ body{font-family: 'Montserrat',system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
 100%{transform: translateY(-420px) scale(1.1) rotate(-45deg); opacity:0}
 }
 
-@media (max-width:560px){.sheet{padding:20px} .sheet h1{font-size:26px}}
+/* RESPONSIVE PARA MÓVILES */
+@media (max-width:768px){
+  .sheet{width:90%; padding:20px}
+  .sheet h1{font-size:26px}
+  .letter p{font-size:14px}
+  .note-thumb img{width:80%; height:auto}
+  .back-btn{padding:8px 16px; font-size:14px}
+}
 </style>
 </head>
 <script>
@@ -100,6 +107,7 @@ que ver contigo, y esa persona obviamente es esta niña que está loquita por ti
 <br>
 <p>Con todo mi corazón,</p>
 <p><strong>Una niña. 🫧</strong></p>
+
 </div>
 </div>
 
@@ -116,25 +124,23 @@ const heartsContainer = document.getElementById('hearts');
 const backBtn = document.getElementById('backBtn');
 
 thumb.addEventListener('click', ()=>{
-thumb.style.display = 'none';
-document.querySelector('.title').style.display = 'none';
-sheetWrap.style.display = 'block';
+  thumb.style.display = 'none';
+  document.querySelector('.title').style.display = 'none';
+  sheetWrap.style.display = 'block';
 });
 
 backBtn.addEventListener('click', ()=>{
-sheetWrap.style.display = 'none';
-thumb.style.display = 'inline-block';
-document.querySelector('.title').style.display = 'block';
-clearInterval(heartsInterval);
+  // REDIRIGIR AL INDEX AL CERRAR
+  window.location.href = "index.html";
 });
 
 document.addEventListener('keydown', (e)=>{
-if(e.key === 'Escape' && sheetWrap.style.display === 'block'){
-backBtn.click();
-}
+  if(e.key === 'Escape' && sheetWrap.style.display === 'block'){
+    backBtn.click();
+  }
 });
 
 let heartsInterval = null;
 </script>
 </body>
-</html> 
+</html>
