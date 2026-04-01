@@ -144,6 +144,32 @@ padding:12px 25px;
 border-radius:25px;
 cursor:pointer;
 }
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .heart-svg {
+    width: 90%;
+    height: auto;
+  }
+
+  .btn-carta {
+    font-size: 16px;
+    padding: 10px 25px;
+  }
+
+  .carta-contenido {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .word {
+    font-size: 16px;
+  }
+
+  .floating-heart {
+    font-size: 16px !important;
+  }
+}
 </style>
 </head>
 <script>
@@ -278,7 +304,9 @@ function abrirCarta(){
 document.getElementById('carta').style.display='flex';
 }
 function cerrarCarta(){
-document.getElementById('carta').style.display='none';
+  document.getElementById('carta').style.display='none';
+  // Redirigir al index
+  window.location.href = "index.html";
 }
 </script>
 
