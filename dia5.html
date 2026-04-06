@@ -16,40 +16,41 @@ transition: background-color 0.5s ease;
 min-height: 100vh;
 }
 .screen {
-display: none;
-animation: fadeIn 0.8s ease;
-
-width: 100%;
-max-width: 600px;
-min-height: 100vh;
-
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-margin: 0 auto;
+  display: none;
+  animation: fadeIn 0.8s ease;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: flex-start; /* no centramos verticalmente */
+  align-items: center;
+  padding: 20px;
+  min-height: auto;  /* quitar altura forzada */
+  overflow-y: auto;  /* permite scroll si es necesario */
 }
 .active {
 display: flex;
-}
-.main-img {
-width: 280px;
-height: 250;
-margin-bottom: 15px;
-cursor: pointer;
-transition: transform 0.3s ease;
-border: none;
-box-shadow: none;
+
 }
 .main-img:hover {
 transform: scale(1.05);
 }
 
+.main-img {
+  width: 70%;          /* un poco más pequeña que antes */
+  max-width: 300px;    /* ancho máximo */
+  height: auto;        /* mantiene proporción */
+  max-height: 250px;   /* límite de altura más bajo */
+  margin: 20px auto;   /* centrado con margen superior/inferior */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
 .card {
 background: repeating-linear-gradient(
 white,
 white 28px,
 #e3e3e3 29px
+
 
 );
 border-radius: 0; /* esquinas en punta */
@@ -70,6 +71,7 @@ text-align: left;
 margin-bottom: 20px;
 margin-left: 10px;
 color: #444;
+
 }
 .card p {
 font-family: 'Dancing Script', cursive;
@@ -79,7 +81,13 @@ text-align: justify;
 color: #444;
 margin: 10px 0;
 }
-
+.card {
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  font-size: 1em;   /* texto se adapta mejor */
+  box-sizing: border-box;
+}
 .return-btn {
 margin-top: 25px;
 padding: 10px 20px;
@@ -88,20 +96,32 @@ border: none;
 border-radius: 6px;
 cursor: pointer;
 transition: 0.3s;
-background-color: #4fdcff;
+background-color: #3ac6e994;
 color: white;
 }
 .return-btn:hover {
-background-color: #2acdff;
+background-color: #0862c97a;
 }
 
 @keyframes fadeIn {
 from {opacity: 0; transform: scale(0.95);}
 to {opacity: 1; transform: scale(1);}
 }
-@media (max-width: 768px){
-  .main-img { width: 90%; max-width: 300px; height: auto; }
-  .card { padding: 15px; font-size: 1em; }
+@media (max-width: 480px) {
+  .main-img {
+    width: 90%;
+    max-width: 250px;
+    max-height: 200px; /* más pequeño en celular */
+  }
+  .card {
+    width: 90%;
+    font-size: 0.95em;
+    padding: 15px;
+  }
+  .return-btn {
+    padding: 10px 18px;
+    font-size: 0.9em;
+  }
 }
 </style>
 </head>
@@ -176,19 +196,13 @@ Una locura total, pero me alegra saber que esa versión mia es solo tuya.</p>
 </div>
 
 <div style="text-align: center;">
-<button class="return-btn" onclick="nextScreen(1)">Byecito.</button>
-
+<button class="return-btn" onclick="window.location.href='index.html'">Byecito.♡</button>
+</div>
 </div>
 </div>
 
 <script>
-function nextScreen(num) {
-const current = document.querySelector(".screen.active");
-if (current) current.classList.remove("active");
-document.getElementById("btnReturn").onclick = function() {
-  window.location.href = "index.html";
-};
-}
+
 </script>
 </body>
 </html> 
