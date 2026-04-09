@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>✈️</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:sans-serif;
+
+/* 🌙 FONDO PERFECTO */
+background:
+linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+url('noche.jpg');
+
+background-size:cover;
+background-position:50% 10%;
+background-repeat:no-repeat;
+}
+
+/* 📱 AJUSTE MOVIL */
+@media (max-width: 600px){
+body{
+background-position:50% 0%;
+}
+}
+
+/* ✈️ AVION */
+.plane{
+position:absolute;
+font-size:40px;
+top:70px;
+left:-80px;
+animation:fly 8s ease-in-out forwards;
+z-index:2;
+}
+
+@keyframes fly{
+0%{left:-80px; top:70px;}
+100%{left:110%; top:90px;}
+}
+
+/* 🎯 PUNTO */
+.drop-zone{
+position:absolute;
+left:50%;
+top:60%;
+transform:translate(-50%,-50%);
+}
+
+/* 🎁 CAJA */
+.box{
+position:absolute;
+font-size:40px;
+display:none;
+cursor:pointer;
+z-index:5;
+}
+
+/* CAÍDA */
+.drop{
+animation:fall 1.5s ease forwards;
+}
+
+@keyframes fall{
+0%{ transform:translateY(-200px);}
+100%{ transform:translateY(0);}
+}
+
+/* 💌 CARTA */
+.letter{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+opacity:0;
+
+background:rgba(255,255,255,0.95);
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
+width:260px;
+text-align:left;
+
+z-index:10;
+}
+
+.letter p{
+line-height:1.6;
+margin-bottom:10px;
+}
+
+.letter.show{
+transform:translate(-50%,-50%) scale(1);
+opacity:1;
+transition:.4s;
+}
+</style>
+</head>
+<script>
+const diaActual = 9;
+
+const fechaInicio = new Date("2026-03-01");
+const fechaDesbloqueo = new Date(fechaInicio);
+fechaDesbloqueo.setDate(fechaInicio.getDate() + (diaActual-1));
+
+const ahora = new Date();
+
+if(ahora < fechaDesbloqueo){
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;text-align:center">
+        <div>
+          <h1>🔒 Aún no disponible</h1>
+          <p>Este día todavía está bloqueado</p>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
+<body>
+
+<div id="plane" class="plane">🛸</div>
+
+<div class="drop-zone" id="zone">
+  <div id="box" class="box">🎁</div>
+</div>
+
+<div id="letter" class="letter">
+  <h3>MUCHACHITO 💙</h3>
+
+  <p>Feliz 9NO <strong>NO</strong> cumpleaños ✨</p>
+
+  <p>
+    Quiero que sepas que eres alguien realmente especial.  
+    Tienes una forma única de ser, de querer y de estar.
+  </p> 
+
+  <p>
+    Eres fuerte, dulce, auténtico… y tienes un corazón que 
+    vale muchísimo más de lo que imaginas.
+  </p>
+
+  <p>
+    Si algún día dudas de ti, recuerda que
+    hay alguien que cree en ti siempre, 
+    que te admira y que te quiere más de lo que dice.
+  </p>
+
+  <p><strong>LOVIU.🫧</strong></p>
+</div>
+
+<script>
+const plane = document.getElementById("plane");
+const box = document.getElementById("box");
+const letter = document.getElementById("letter");
+const zone = document.getElementById("zone");
+
+let dropped = false;
+let animationStopped = false;
+
+/* 🎯 SOLTAR CAJA */
+function track(){
+if(animationStopped) return;
+
+const rectPlane = plane.getBoundingClientRect();
+const rectZone = zone.getBoundingClientRect();
+
+if(!dropped && rectPlane.left >= rectZone.left){
+dropped = true;
+
+box.style.display = "block";
+box.style.transform = "translateY(-200px)";
+box.classList.add("drop");
+
+animationStopped = true;
+return;
+}
+
+requestAnimationFrame(track);
+}
+
+track();
+
+/* 💌 ABRIR CAJA */
+box.addEventListener("click", ()=>{
+box.innerHTML = "💌";
+letter.classList.add("show");
+
+setTimeout(()=>{
+box.style.display = "none";
+},200);
+});
+
+/* 👉 CLICK CARTA */
+letter.addEventListener("click", ()=>{
+window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>
