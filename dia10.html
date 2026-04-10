@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✨ Para Ti 💙</title>
+<title>✨ dia 10💙</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 
@@ -110,7 +110,28 @@ body{
 }
 </style>
 </head>
+<script>
+const diaActual = 10;
 
+const fechaInicio = new Date("2026-03-01");
+const fechaDesbloqueo = new Date(fechaInicio);
+fechaDesbloqueo.setDate(fechaInicio.getDate() + (diaActual-1));
+
+const ahora = new Date();
+
+if(ahora < fechaDesbloqueo){
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;text-align:center">
+        <div>
+          <h1>🔒 Aún no disponible</h1>
+          <p>Este día todavía está bloqueado</p>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
 <body>
 
 <div id="cielo">
