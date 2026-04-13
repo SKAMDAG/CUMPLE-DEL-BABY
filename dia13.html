@@ -13,6 +13,7 @@ body{
   color:white;
 }
 
+/* escenas */
 .scene{
   position:absolute;
   width:100%;
@@ -28,6 +29,7 @@ body{
   padding:20px;
 }
 
+/* fondo */
 #bg{
   position:fixed;
   width:100%;
@@ -36,6 +38,7 @@ body{
   z-index:-1;
 }
 
+/* estrellas */
 .star{
   position:absolute;
   width:2px;
@@ -50,32 +53,31 @@ body{
   to{opacity:1;}
 }
 
-/* 🔥 TEXTO GRANDE */
-
-/* intro */
+/* 🔥 TEXTO RESPONSIVE */
 #intro h1{
-  font-size:42px;
+  font-size:clamp(28px, 6vw, 42px);
 }
 
-/* historia */
 #story{
-  font-size:26px;
-  max-width:700px;
+  font-size:clamp(18px, 4.5vw, 26px);
+  max-width:90%;
   line-height:1.5;
+  margin:auto;
 }
 
-/* tarjeta */
+/* tarjeta adaptable */
 .card{
   background:rgba(255,255,255,0.1);
   backdrop-filter:blur(10px);
-  padding:30px;
+  padding:20px;
   border-radius:20px;
-  width:380px;
+  width:90%;
+  max-width:380px;
 }
 
-/* preguntas */
+/* pregunta */
 #question{
-  font-size:24px;
+  font-size:clamp(18px, 5vw, 24px);
   margin-bottom:15px;
 }
 
@@ -88,7 +90,7 @@ button{
   border-radius:14px;
   background:#4dafff;
   color:white;
-  font-size:18px;
+  font-size:clamp(14px, 4vw, 18px);
   cursor:pointer;
   transition:0.3s;
 }
@@ -100,7 +102,7 @@ button:hover{
 
 /* resultado */
 #result{
-  font-size:20px;
+  font-size:clamp(16px, 4vw, 20px);
   margin-top:10px;
 }
 
@@ -108,7 +110,7 @@ button:hover{
 .chart{
   margin-top:15px;
   width:100%;
-  height:22px;
+  height:20px;
   background:rgba(255,255,255,0.2);
   border-radius:10px;
   overflow:hidden;
@@ -124,33 +126,33 @@ button:hover{
 
 .percent{
   margin-top:8px;
-  font-size:16px;
+  font-size:clamp(14px, 3.5vw, 16px);
 }
 
 /* final */
 #final h1{
-  font-size:40px;
-  color:#ff4d88;
+  font-size:clamp(26px, 6vw, 40px);
+  color:#4de4ff;
   animation:glow 2s infinite alternate;
 }
 
 #finalText{
-  font-size:26px;
-  max-width:700px;
+  font-size:clamp(18px, 5vw, 26px);
+  max-width:90%;
   margin-top:15px;
   line-height:1.5;
 }
 
 @keyframes glow{
-  from{ text-shadow:0 0 5px #ff4d88; }
-  to{ text-shadow:0 0 25px #ff4d88; }
+  from{ text-shadow:0 0 5px #4d9aff; }
+  to{ text-shadow:0 0 25px #4d94ff; }
 }
 
 /* emojis */
 .float{
   position:absolute;
   bottom:-50px;
-  font-size:32px;
+  font-size:clamp(20px,5vw,32px);
   animation:floatUp linear forwards;
 }
 
