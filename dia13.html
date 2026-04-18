@@ -8,7 +8,8 @@
 body{
   margin:0;
   font-family:'Segoe UI', sans-serif;
-  overflow:hidden;
+  overflow:hidden; /* ok si todo está controlado */
+  min-height:100dvh;
   background:black;
   color:white;
 }
@@ -59,11 +60,9 @@ body{
 }
 
 #story{
-  font-size:clamp(18px, 4.5vw, 26px);
-  max-width:90%;
-  line-height:1.5;
-  margin:auto;
+  overflow-wrap: break-word;
 }
+
 
 /* tarjeta adaptable */
 .card{
@@ -352,7 +351,7 @@ const questions=[
       {text:"Yo 🥰", match:false},
       {text:"Tú 🥹", match:true}
     ],
-    goodMsg:"En verdad di eres tú.😭💖",
+    goodMsg:"En verdad si eres tú.😭💖",
     badMsg:"Discutible...",
     percentGood:100,
     percentBad:65
