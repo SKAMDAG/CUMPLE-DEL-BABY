@@ -92,16 +92,32 @@ body{
   50%{ transform:translateY(-6px);}
   100%{ transform:translateY(0);}
 }
-
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translate(-50%, -30%) scale(0.8);
+  }
+  to{
+    opacity:1;
+    transform:translate(-50%, -50%) scale(1);
+  }
+}
 /* MENSAJE */
 .mensaje{
-  position:absolute;
-  background:rgba(0,0,0,0.6);
+  position:fixed; /* 👈 mejor que absolute */
+  max-width:80%;
+  background:rgba(0,0,0,0.75);
   color:white;
-  padding:12px;
+  padding:12px 16px;
   border-radius:15px;
   font-family:'Dancing Script', cursive;
-  font-size:20px;
+  font-size:clamp(16px, 4vw, 20px); /* 👈 responsive */
+  text-align:center;
+  pointer-events:none;
+  z-index:999;
+
+  /* 👇 efecto bonito */
+  animation:fadeUp 0.3s ease;
 }
 
 /* CARTA */
@@ -163,8 +179,12 @@ function clickEstrella(e){
   msg.className="mensaje";
   msg.innerText=texto;
 
-  msg.style.top=e.clientY+"px";
-  msg.style.left=e.clientX+"px";
+const x = e.clientX;
+const y = e.clientY;
+
+msg.style.left = x + "px";
+msg.style.top = y + "px";
+msg.style.transform = "translate(-50%, -50%)"; // 👈 centra
 
   document.body.appendChild(msg);
   setTimeout(()=>msg.remove(),3000);
@@ -189,6 +209,14 @@ function mostrarCarta(){
 
   document.body.appendChild(carta);
 }
+const margen = 20;
+
+let posX = Math.min(window.innerWidth - margen, Math.max(margen, e.clientX));
+let posY = Math.min(window.innerHeight - margen, Math.max(margen, e.clientY));
+
+msg.style.left = posX + "px";
+msg.style.top = posY + "px";
+msg.style.transform = "translate(-50%, -50%)";
 </script>
 
 </body>
