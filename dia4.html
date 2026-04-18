@@ -10,23 +10,23 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Georgia', serif;
-  height: 130vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: auto;
   background-color: #fff;
   background-image: radial-gradient(rgba(236, 137, 181, 0.3) 1.5px, transparent 1.5px);
   background-size: 30px 30px;
   background-position: center;
 }
 
-.container {
+.container{
   position: relative;
   width: 430px;
-  height: 630px;
+  max-width: 95%;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* 👈 clave */
   align-items: center;
 }
 
@@ -101,7 +101,7 @@ body {
 }
 
 .boton-reiniciar {
-  position: absolute;
+  position: static;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -122,11 +122,25 @@ body {
 
 /* RESPONSIVE PARA MÓVILES */
 @media (max-width: 768px){
-  .container { width: 90%; height: auto; }
-  .carta { padding: 20px; font-size: 14px; }
-  .portada img { height: auto; }
-  .decoracion-texto { font-size: 16px; top: -40px; }
-  .boton-reiniciar { padding: 8px 16px; font-size: 12px; }
+
+  body{
+    padding:20px 10px;
+  }
+
+  .container{
+    width:100%;
+  }
+
+  .carta{
+    font-size: 14px;
+  }
+
+  .boton-reiniciar{
+    width: 80%;
+    max-width: 250px;
+    margin-top: 20px;
+  }
+
 }
 </style>
 </head>
