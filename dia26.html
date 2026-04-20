@@ -111,7 +111,93 @@
     .heart::before { top: -10px; }
     .heart::after { left: -10px; }
     @keyframes float { 0% { transform: translateY(100vh) rotate(45deg); opacity: 1; } 100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; } }
-  </style>
+ /* 📱 RESPONSIVE PARA CELULAR */
+@media (max-width: 768px){
+
+  #words, #message{
+    position: static; /* ❗ deja de estar flotando */
+    width: 90%;
+    margin: 15px auto;
+  }
+
+  #grid{
+    grid-template-columns: repeat(14, 22px); /* más pequeño */
+    gap: 4px;
+  }
+
+  .cell{
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  h1{
+    font-size: 20px;
+    padding: 0 10px;
+  }
+
+  body{
+    overflow-y: auto; /* permite scroll */
+  }
+}
+
+.game-container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px;
+}
+/* 💖 PANTALLA FINAL */
+.final-screen{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  background: linear-gradient(135deg,#d6ecff,#ffe6f0);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.6s ease;
+  z-index:999;
+}
+
+.final-screen.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* TARJETA */
+.final-card{
+  background:white;
+  padding:30px;
+  border-radius:25px;
+  max-width:350px;
+  width:90%;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  animation:pop 0.6s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.final-card h2{
+  color:#66adff;
+  margin-bottom:15px;
+}
+
+.final-card p{
+  font-size:15px;
+  line-height:1.6;
+  color:#444;
+}
+ </style>
 </head>
 <script>
 const diaActual = 26;
@@ -139,9 +225,20 @@ if(ahora < fechaDesbloqueo){
 <body>
 
 <h1>Holis, encuentra las palabras.💙</h1>
-<div id="words"></div>
-<div id="grid"></div>
-<div id="message"></div>
+
+<div class="game-container">
+  <div id="grid"></div>
+  <div id="words"></div>
+</div>
+
+<!-- 💖 PANTALLA FINAL -->
+<div id="finalScreen" class="final-screen">
+  <div class="final-card">
+    <h2>Feliz 26 NO cumpleaños amor 💙</h2>
+    <p id="finalText"></p>
+    <button onclick="irAIndex()">💙</button>
+  </div>
+</div>
 
 <script>
 // 👉 Personaliza el nombre aquí
@@ -273,48 +370,24 @@ function checkWord(){
 
 // ✨ Mensaje con efecto máquina de escribir
 function showMessage(){
-  const msg = `💖 Feliz 26 NO cumpleaños ${nombre}, te amo mucho. Eres lo más lindo que me ha pasado, me haces feliz cada día y quiero estar contigo siempre.BYECITO.💕`;
-  const container = document.getElementById('message');
-  container.style.display='block';
+  const msg = "Te amo mucho. Eres lo más lindo que me ha pasado mi amor bonito, me haces feliz cada día y quiero estar contigo siempre. 💕";
 
-  container.innerHTML = "";
+  const screen = document.getElementById("finalScreen");
+  const text = document.getElementById("finalText");
 
-  const textSpan = document.createElement('span');
-  container.appendChild(textSpan);
-
-  for(let i=0;i<15;i++){
-    setTimeout(()=>{
-      const spark = document.createElement('div');
-      spark.classList.add('sparkle');
-      spark.style.left = Math.random()*100+'%';
-      spark.style.top = Math.random()*100+'%';
-      container.appendChild(spark);
-      setTimeout(()=>spark.remove(),1500);
-    }, i*100);
-  }
+  screen.classList.add("show");
+  text.innerHTML = "";
 
   let i=0;
   function type(){
     if(i<msg.length){
-      textSpan.textContent += msg[i];
+      text.innerHTML += msg[i];
       i++;
       setTimeout(type,30);
     }
   }
   type();
 }
-"Te amo mucho. Eres lo más lindo que me ha pasado mi amor bonito, me haces feliz cada día y quiero estar contigo siempre. 💕";
-  const container = document.getElementById('message');
-  container.style.display='block';
-  let i=0;
-  function type(){
-    if(i<msg.length){
-      container.innerHTML += msg[i];
-      i++;
-      setTimeout(type,30);
-    }
-  }
-  type();
 
 // Corazones
 function createHeart(){
@@ -326,6 +399,9 @@ function createHeart(){
   setTimeout(()=>heart.remove(),6000);
 }
 setInterval(createHeart,300);
+function irAIndex(){
+  window.location.href = "index.html";
+}
 </script>
 
 </body>

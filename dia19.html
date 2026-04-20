@@ -41,7 +41,7 @@ img{
   align-items:center;
   flex-direction:column;
   text-align:center;
-  padding:20px;
+  padding:20px 15px;
   opacity:0;
   pointer-events:none;
   transform:scale(0.95);
@@ -133,9 +133,9 @@ video{
 
 /* 💖 CONTENEDOR CARTA */
 .paper-wrapper{
-  transform:translateY(40px) scale(0.9);
-  opacity:0;
-  transition:0.6s ease;
+  width:100%;
+  display:flex;
+  justify-content:center;
 }
 
 /* CUANDO APARECE */
@@ -146,8 +146,9 @@ video{
 
 /* 💌 CARTA */
 .paper{
-  width:270px;
-  padding:25px;
+  width:90%;
+  max-width:350px; /* 👈 limita tamaño en PC */
+  padding:20px;
   border-radius:20px;
   text-align:center;
 
@@ -169,12 +170,18 @@ video{
 
 /* TEXTO */
 .paper h2{
-  color:#6fa8ff;
+  color:#68a3fc;
+  font-size: clamp(18px, 5vw, 22px);
 }
 .paper p{
-  color:#444;
-  font-size:14px;
-  line-height:1.7;
+  font-size: clamp(14px, 3vw, 16px);
+  line-height:1.6;
+}
+.screen h1, .screen h2, .screen p{
+  max-width: 90%;
+  margin: 0 auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* BRILLO */
@@ -185,6 +192,28 @@ video{
 }
 @keyframes fade{
   to{opacity:0; transform:scale(2);}
+}
+@media (max-width:480px){
+
+  .screen h1{
+    font-size: clamp(20px, 6vw, 26px);
+  }
+
+  .screen h2{
+    font-size: clamp(16px, 5vw, 20px);
+  }
+
+  .screen p{
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .grid{
+    gap:15px;
+  }
+
+  .card img{
+    width:120px; /* un poco más pequeño para celular */
+  }
 }
 </style>
 </head>
@@ -243,20 +272,33 @@ video{
 <div class="screen" id="carta">
   <div class="paper-wrapper" id="wrapper">
     <div class="paper" id="paper">
-      <h2>Feliz 19 NO cumpleaños amorcito.💙</h2>
-      <p>
-        Me está dando nostalgia, estamos a 17 hoy, 
-        o sea ahora que estoy escribiendo esto, son las 
-        2:45, hace par de minutos me estaba riendo con un 
-        video note tuyo, pero ese no es el punto, 
-        es que me da nostalgia porque llevo dias largos en esto,
-        y ya actualmente solo me faltan 3 dias más por terminar.<br><br>
-        
-        Por alguna razón mientras los hacia pensaba que estaba 
-        cerca tuyo, pero bueno...Todo termina, en fin.
-        Gracias por estar en mi vida, por hacerme feliz y por ser tú.<br>
-        Te amo tantísimo.🫧
-      </p>
+<h2>Feliz 19 NO cumpleaños amorcito.💙</h2>
+
+<p>
+Me está dando nostalgia. Estamos a 17 hoy… o sea, 
+ahora que estoy escribiendo esto son las 2:45. 
+Hace par de minutos me estaba riendo con un video note tuyo, pero ese no es el punto.
+</p>
+
+<p>
+Es que me da nostalgia porque llevo días largos en esto, 
+y ya actualmente solo me faltan 3 días más por terminar.
+</p>
+
+<p>
+Por alguna razón, mientras los hacía, pensaba que estaba cerca tuyo… 
+pero bueno, todo termina, en fin...
+</p>
+
+<p>
+Gracias por estar en mi vida, por hacerme feliz y por ser tú.
+Creo que en estos días he dicho más de lo que habia dicho nunca.
+</p>
+
+<p>
+Te amo tantísimo. 🫧
+</p>
+
     </div>
   </div>
 
@@ -305,6 +347,7 @@ document.addEventListener("mousemove",(e)=>{
 function irAIndex(){
   window.location.href = "index.html";
 }
+
 </script>
 
 </body>
