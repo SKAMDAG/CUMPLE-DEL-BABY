@@ -2,289 +2,221 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>💙 Para ti 💙</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>14 NO cumpleaños.💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+
 body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:radial-gradient(circle,#0a0f1f,#05070f);
-  font-family:'Poppins',sans-serif;
-  overflow:hidden;
+font-family:"Poppins",sans-serif;
+background:#8bc6ee;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+margin:0;
+text-align:center;
+color:#333;
 }
 
-/* APP */
-.app{
-  position:relative;
-  width:320px;
-  padding:25px;
-  border-radius:25px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(20px);
-  box-shadow:0 0 40px rgba(102,179,255,0.3);
-  text-align:center;
-  animation:float 4s ease-in-out infinite;
-  overflow:hidden;
-}
-
-/* BORDE GLOW */
-.app::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:25px;
-  background:linear-gradient(45deg,#66b3ff,#a0e7ff,#66b3ff);
-  filter:blur(12px);
-  z-index:-1;
-}
-
-/* 🔥 SCAN HOLOGRAMA */
-.app::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:100%;
-  height:60px;
-  background:linear-gradient(
-    to bottom,
-    transparent,
-    rgba(102,179,255,0.25),
-    transparent
-  );
-  animation:scan 3s linear infinite;
-}
-
-@keyframes scan{
-  0%{top:-60px;}
-  100%{top:100%;}
-}
-
-/* FLOTAR */
-@keyframes float{
-  50%{transform:translateY(-8px);}
-}
-
-/* TITULO */
 h2{
-  color:#9ecbff;
+margin-bottom:20px;
 }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(6,45px);
-  gap:10px;
-  justify-content:center;
-  margin:20px 0;
+.screen{
+display:none;
+animation:fadeIn .8s ease;
+width:90%;
+max-width:600px;
 }
 
-/* CELDAS */
-.cell{
-  width:45px;
-  height:45px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.08);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  cursor:pointer;
-  transition:0.3s;
+.active{
+display:block;
 }
 
-.cell:hover{
-  transform:scale(1.15);
-  background:#66b3ff;
+.main-img{
+width:280px;
+margin-bottom:15px;
+cursor:pointer;
+transition:.3s;
 }
 
-/* SELECCION */
-.selected{
-  outline:2px solid #9ecbff;
-  transform:scale(1.2);
+.main-img:hover{
+transform:scale(1.05);
 }
 
-/* CORRECTO */
-.correct{
-  background:#9ecbff !important;
-  color:black;
-  animation:pop 0.3s;
+.btn{
+margin-top:15px;
+padding:10px 25px;
+font-size:1em;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#7cbbee;
+color:white;
 }
 
-/* ERROR */
-.error{
-  animation:shake 0.3s;
+.btn:hover{
+background:#77d3f8;
 }
 
-/* INPUT */
-input{
-  width:80px;
-  padding:10px;
-  border:none;
-  border-radius:12px;
-  text-align:center;
-  font-size:18px;
-  outline:none;
-  background:rgba(255,255,255,0.1);
-  color:white;
+.card{
+background:repeating-linear-gradient(
+rgb(255, 255, 255),
+white 28px,
+#e3e3e3 29px
+);
+padding:40px 60px;
+border:2px solid #e5e5e5;
+max-width:900px;
+text-align:left;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
-/* BOTON */
-button{
-  margin-top:10px;
-  padding:8px 20px;
-  border:none;
-  border-radius:20px;
-  background:linear-gradient(45deg,#66b3ff,#99ccff);
-  color:white;
-  cursor:pointer;
-  box-shadow:0 0 10px rgba(102,179,255,0.5);
-  transition:0.3s;
+.card h3{
+font-family:'Dancing Script',cursive;
+font-size:2em;
+margin-bottom:20px;
 }
 
-button:hover{
-  transform:scale(1.1);
+.card p{
+font-family:'Dancing Script',cursive;
+font-size:1.3em;
+line-height:1.6;
 }
 
-/* MENSAJE */
-#msg{
-  height:20px;
-  color:#9ecbff;
-  margin-top:10px;
+@keyframes fadeIn{
+from{opacity:0;transform:scale(.95);}
+to{opacity:1;transform:scale(1);}
 }
 
-/* CORAZONES */
-.heart{
-  position:fixed;
-  color:#9ecbff;
-  animation:floatUp 1s linear;
-}
-
-@keyframes floatUp{
-  to{transform:translateY(-80px);opacity:0;}
-}
-
-/* ANIMACIONES */
-@keyframes shake{
-  25%{transform:translateX(-5px);}
-  50%{transform:translateX(5px);}
-  75%{transform:translateX(-5px);}
-}
-
-@keyframes pop{
-  0%{transform:scale(0.6);}
-  100%{transform:scale(1);}
-}
 </style>
 </head>
+<script>
+const diaActual = 14;
 
+const fechaInicio = new Date("2026-03-01");
+const fechaDesbloqueo = new Date(fechaInicio);
+fechaDesbloqueo.setDate(fechaInicio.getDate() + (diaActual-1));
+
+const ahora = new Date();
+
+if(ahora < fechaDesbloqueo){
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.innerHTML = `
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;text-align:center">
+        <div>
+          <h1>🔒 Aún no disponible</h1>
+          <p>Este día todavía está bloqueado</p>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
 <body>
 
-<div class="app">
-  <h2>Completa 💙</h2>
+<!-- PANTALLA 1 -->
+<div class="screen active" id="screen1">
+<h2>Entrega; ¿Especial?</h2>
+<img src="CONI.png" class="main-img" onclick="nextScreen(2)">
+</div>
 
-  <div class="grid" id="grid"></div>
+<!-- PANTALLA 2 -->
+<div class="screen" id="screen2">
+<img src="cum.png" class="main-img" onclick="nextScreen(3)">
+</div>
 
-  <input id="letter" maxlength="1" placeholder="?">
-  <br>
-  <button onclick="confirmar()">💙</button>
+<!-- PANTALLA 3 -->
+<div class="screen" id="screen3">
 
-  <div id="msg"></div>
+<div class="card" onclick="mostrarMensaje()">
+
+<h3>Amorcito mio.</h3>
+
+<p>
+A veces las cosas más simples de la vida son las que nos llenan el alma,
+las que nos recuerdan que estamos vivos  y también de que estamos hechos,
+yo estoy hecha de inseguridades e imperfecciones, estoy hecha de colores y de risas,
+y justo esas risas que comparto contigo son las que me me salvan y también me devuelven
+a la realidad, son un recordatorio de que estamos vivos, de que a veces nos preocupamos 
+y nos torturamos por cosas que no valen tanto la pena, yo no cambiaría ni una de nuestras
+llamadas nocturnas por nada en el mundo, porque justo en ese momento del día es que soy 100% yo,
+y me aterra y emociona al mismo tiempo saber que si Dios permite algún día, 
+seré todo eso por más tiempo, que compartiré risas y miradas contigo porque créeme 
+que sin duda esos son los momentos más mágicos que he experimentado, que mi risa te de risa 
+y viceversa, que te mire y piense que estoy demasiado loca y que a veces me da miedo sentir tanto, 
+luego recuerdo que la vida se deberi tratar de dar y recibir amor, nada más que eso, te hice un 
+comentario de que “si salimos de esta relación”, créeme que no tengo planes de salir de ella, 
+no puedo hablar por ti porque aunque estoy consciente de que me amas y mucho, verdaderamente 
+solo tú conoces el tamaño de ese sentimiento porque solo a ti te pertenece, pero hablando de mí, 
+puedo afirmar que muchas personas no han amado nunca ni la mitad de lo que yo te amo a ti,
+ es una completa locura y no estoy alardeando ni mucho menos, solo digo que si amara 
+ a cada persona que conozco un 1% de lo que te amo a ti, yo no sería pecadora, es por eso 
+ que Dios nos divide de diversas formas, aunque me muera de miedo, ten muy seguro que 
+ yo estoy más que feliz de que la persona que tiene tanto de mi, seas tú, yo espero 
+ siempre cuidar mucho de tus sentimientos para ser muy digna de ellos. ❤️‍🩹
+</p>
+
+</div>
+
+</div>
+
+<!-- MENSAJE FINAL -->
+
+<div id="mensajeFinal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+">
+
+<div style="
+background:white;
+padding:30px;
+border-radius:10px;
+text-align:center;
+max-width:400px;
+font-family:Poppins;
+">
+
+<h3>Eso es todo.🩵</h3>
+
+<p>
+Muchas gracias por su tiempo estimado. <br> 
+Nos vemos prontitooo.
+</p>
+
+<button class="btn" onclick="irAIndex()">¡De acuerdo!</button>
+
+</div>
+
 </div>
 
 <script>
 
-let seleccion = null;
-
-const letras = [
-  "T","_","A","M","O","X",
-  "M","I","_","I","D","A"
-];
-
-const soluciones = {
-  1:"E",
-  8:"V"
-};
-
-const grid = document.getElementById("grid");
-
-function render(){
-  grid.innerHTML="";
-  letras.forEach((l,i)=>{
-    const div=document.createElement("div");
-    div.className="cell";
-    div.textContent=l;
-
-    if(l === "_"){
-      div.onclick=()=>seleccionar(div,i);
-    }
-
-    grid.appendChild(div);
-  });
+function nextScreen(num){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))
+document.getElementById('screen'+num).classList.add('active')
 }
 
-function seleccionar(cell,i){
-  document.querySelectorAll(".cell").forEach(c=>c.classList.remove("selected"));
-  cell.classList.add("selected");
-  seleccion={cell,index:i};
-  document.getElementById("letter").focus();
+function mostrarMensaje(){
+document.getElementById("mensajeFinal").style.display="flex"
 }
 
-function confirmar(){
-  if(!seleccion) return;
-
-  const input=document.getElementById("letter");
-  let letra=input.value.toUpperCase();
-
-  if(letra === soluciones[seleccion.index]){
-    seleccion.cell.textContent=letra;
-    seleccion.cell.classList.add("correct");
-    letras[seleccion.index]=letra;
-
-    hearts();
-    showMsg("💙 perfecto");
-
-    checkWin();
-  }else{
-    seleccion.cell.classList.add("error");
-    setTimeout(()=>seleccion.cell.classList.remove("error"),300);
-    showMsg("😏 intenta otra vez");
-  }
-
-  input.value="";
-  seleccion=null;
+function irAIndex(){
+  window.location.href = "index.html";
 }
-
-function hearts(){
-  for(let i=0;i<10;i++){
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="💙";
-    h.style.left=Math.random()*100+"vw";
-    h.style.top="60%";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1000);
-  }
-}
-
-function showMsg(text){
-  document.getElementById("msg").textContent=text;
-}
-
-function checkWin(){
-  const palabra = letras.join("");
-
-  if(palabra.includes("TEAMO") && palabra.includes("MIVIDA")){
-    showMsg("💖 desbloqueaste mi corazón...");
-    setTimeout(()=>{
-      window.location.href="index.html";
-    },1500);
-  }
-}
-
-render();
 
 </script>
 

@@ -1,33 +1,44 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>24 NO Cumpleaños 🥳</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  font-family:'Comic Sans MS';
+  font-family:'Comic Sans MS', cursive;
   background:linear-gradient(135deg,#fff0f6,#eaf6ff);
-  height:100vh;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow:hidden;
+  position:relative;
 }
 
 /* PORTADA */
 .portada{
   width:400px;
+  max-width:90vw;
   height:600px;
+  max-height:90vh;
   background:#fff;
   border-radius:20px;
   box-shadow:0 15px 30px rgba(0,0,0,0.2);
   padding:20px;
   cursor:pointer;
   text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:transform .3s ease;
+  z-index:2;
 }
+.portada:hover{ transform:scale(1.02); }
 
 .titulo{
   font-size:2em;
@@ -45,9 +56,11 @@ body{
 
 .etiqueta{
   background:#ffe4f0;
-  padding:10px;
+  padding:10px 18px;
   border-radius:10px;
   display:inline-block;
+  color:#d46aa6;
+  font-weight:bold;
 }
 
 /* INTERIOR */
@@ -59,55 +72,134 @@ body{
   backdrop-filter:blur(8px);
   justify-content:center;
   align-items:center;
+  z-index:10;
 }
 
 /* SCRAPBOOK */
 .scrapbook{
   width:700px;
+  max-width:95vw;
   height:500px;
+  max-height:85vh;
   border-radius:20px;
   overflow:hidden;
   box-shadow:0 20px 40px rgba(0,0,0,0.2);
   position:relative;
   cursor:pointer;
+  touch-action: manipulation;
+  transition: all 1s ease;
 }
 
-/* PAGINAS */
+/* CONTENEDOR 3D */
 .paginas{
-  display:flex;
-  height:100%;
-  transition:transform .6s ease;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1500px;
 }
 
+/* páginas */
 .pagina{
-  min-width:100%;
-  padding:30px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding:40px;
   background:#fffafc;
-  position:relative;
+
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.9s ease;
+
+  backface-visibility: hidden;
 }
 
-/* DECORACION SCRAPBOOK */
-.sticker{
-  position:absolute;
-  width:70px;
-  transform:rotate(-10deg);
+/* ORDEN correcto */
+.pagina:nth-child(1){ z-index:3; }
+.pagina:nth-child(2){ z-index:2; }
+.pagina:nth-child(3){ z-index:1; }
+
+/* VOLTEO */
+.pagina.pasada{
+  transform:rotateY(-180deg);
 }
 
-.sticker2{
+/* SOMBRA PRO */
+.pagina::after{
+  content:"";
   position:absolute;
-  width:70px;
-  transform:rotate(8deg);
+  inset:0;
+  background:linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+  opacity:0;
+  transition:.5s;
+  pointer-events:none;
 }
+.pagina.pasada::after{ opacity:1; }
 
 /* TEXTO */
 h2{
   color:#ff8fcf;
-  margin-bottom:10px;
+  margin-bottom:14px;
+  font-size:1.6em;
 }
-
 p{
   color:#555;
+  margin-bottom:8px;
+  line-height:1.5;
 }
+
+/* CONTENIDO LADO */
+.contenido{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  height:100%;
+}
+.texto{ flex:1; }
+
+/* POLAROID a la derecha */
+.polaroid{
+  flex-shrink:0;
+  width:170px;
+  background:#fff;
+  padding:10px 10px 32px 10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+  transform:rotate(3deg);
+  border-radius:4px;
+  position:relative;
+  transition:transform .4s ease;
+}
+.polaroid.izq{ transform:rotate(-3deg); }
+.polaroid:hover{ transform:rotate(0deg) scale(1.03); }
+.polaroid img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  display:block;
+  background:#f3e8ef;
+}
+.polaroid .pie{
+  position:absolute;
+  bottom:6px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-family:'Comic Sans MS', cursive;
+  font-size:13px;
+  color:#999;
+}
+
+/* STICKERS (emoji fallback) */
+.sticker, .sticker2{
+  position:absolute;
+  font-size:42px;
+  user-select:none;
+  pointer-events:none;
+}
+.sticker{ transform:rotate(-10deg); }
+.sticker2{ transform:rotate(8deg); }
 
 /* CERRAR */
 .cerrar{
@@ -115,7 +207,88 @@ p{
   top:10px;
   right:15px;
   cursor:pointer;
-  font-size:20px;
+  font-size:22px;
+  z-index:20;
+  background:#fff;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+/* HINT navegación */
+.hint{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:12px;
+  color:#bba;
+  pointer-events:none;
+}
+
+/* SPARKLES */
+.sparkle{
+  position:fixed;
+  top:-20px;
+  pointer-events:none;
+  animation: caer linear infinite;
+  z-index:1;
+}
+@keyframes caer{
+  0%{ transform:translateY(-10vh) rotate(0deg); opacity:0; }
+  10%{ opacity:1; }
+  100%{ transform:translateY(110vh) rotate(360deg); opacity:0; }
+}
+
+/* CIERRE */
+.scrapbook.cerrando{
+  transform: scale(0.7) rotate(-3deg);
+  opacity: 0;
+}
+
+/* MOBILE */
+@media (max-width:520px){
+  .portada{ height:520px; }
+  .scrapbook{ width:95%; height:75vh; }
+  .contenido{ gap:10px; }
+  .polaroid{ width:100px; padding:5px 5px 18px 5px; }
+  .polaroid img{ height:90px; }
+  .polaroid .pie{ font-size:9px; bottom:3px; }
+  .pagina{ padding:18px; }
+  h2{ font-size:1.15em; }
+  p{ font-size:.85em; margin-bottom:6px; }
+}
+
+/* CONTRAPORTADA - se ve cuando ya no hay más páginas */
+.contraportada{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#ffd6e8,#d6ecff);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  border-radius:20px;
+  z-index:0;
+}
+.foto-final{
+  width:200px;
+  height:200px;
+  border-radius:20px;
+  background:#fff url('foto.jpg') center/cover no-repeat;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+  border:6px solid #fff;
+  transform:rotate(-3deg);
 }
 </style>
 </head>
@@ -124,71 +297,140 @@ p{
 
 <div class="portada" onclick="abrir()">
   <div class="titulo">Para ti 💖</div>
-  <img src="1.png" class="imagen">
+  <div style="font-size:90px;">🎁</div>
   <div class="etiqueta">24 NO Cumpleaños</div>
+  <p style="margin-top:20px;color:#aaa;font-size:.9em;">(toca para abrir)</p>
 </div>
 
 <div id="paginaInterior">
+  <div class="scrapbook" onclick="manejarClick(event)">
+    <div class="cerrar" onclick="cerrar(event)">✕</div>
 
-<div class="scrapbook" onclick="siguiente()">
+    <!-- CONTRAPORTADA (visible cuando todas las páginas están volteadas) -->
+    <div class="contraportada">
+      <img src="foto1.jpeg" alt="Imagen portada" />
+      <h2 style="margin-top:20px;">Te amo 💖</h2>
+      <p style="margin-top:10px;">(toca de nuevo para cerrar)</p>
+    </div>
 
-<div class="paginas" id="paginas">
+    <div class="paginas" id="paginas">
 
-<!-- PAGINA 1 -->
-<div class="pagina">
-<h2>Hola Muñeco ✧</h2>
-<p>Para mí es muy importante sentirme amada...</p>
+      <!-- PAGINA 1 -->
+      <div class="pagina">
+        <div class="contenido">
+          <div class="texto">
+            <h2>Hola Muñeco ✧</h2>
+            <p>El día de hoy nos ponemos medio sentimentales...</p>
+            <p>Para mí es muy importante sentirme amada.</p>
+            <p>Yo hago todo lo posible por demostrarte lo que siento.</p>
+            <p>Que mientras seamos novios tengas ganas de seguir conmigo. 💕</p>
+          </div>
+          <div class="polaroid izq">
+            <img src="pag1.jpg" alt="Foto 1" onerror="this.style.display='none';this.parentNode.querySelector('.fallback').style.display='flex';">
+            <div class="fallback" style="display:none;width:100%;height:150px;align-items:center;justify-content:center;font-size:50px;background:#fde7f1;">🧸</div>
+            <div class="pie">nosotros 💕</div>
+          </div>
+        </div>
+        <div class="sticker" style="top:20px; right:30px;">🌸</div>
+        <div class="sticker2" style="bottom:20px; left:20px;">✨</div>
+      </div>
 
-<img src="11.png" class="sticker" style="top:20px; right:30px;">
-<img src="3.png" class="sticker2" style="bottom:20px; left:20px;">
-</div>
+      <!-- PAGINA 2 -->
+      <div class="pagina">
+        <div class="contenido">
+          <div class="texto">
+            <h2>Feliz 24 ✧</h2>
+            <p>Como amas las cosas pequeñas, te dejo este regalito digital lleno de cariño.</p>
+            <p>Cada día contigo es una razón más para sonreír. 🌷</p>
+          </div>
+          <div class="polaroid">
+            <img src="pag2.jpg" alt="Foto 2" onerror="this.style.display='none';this.parentNode.querySelector('.fallback').style.display='flex';">
+            <div class="fallback" style="display:none;width:100%;height:150px;align-items:center;justify-content:center;font-size:50px;background:#e7f1fd;">🎂</div>
+            <div class="pie">tu sonrisa 🌷</div>
+          </div>
+        </div>
+        <div class="sticker" style="top:30px; left:40px;">🐧</div>
+        <div class="sticker2" style="bottom:20px; right:30px;">🐰</div>
+      </div>
 
-<!-- PAGINA 2 -->
-<div class="pagina">
-<h2>Feliz 24 ✧</h2>
-<p>Como ama las cosas pequeñas...</p>
+      <!-- PAGINA 3 -->
+      <div class="pagina">
+        <div class="contenido">
+          <div class="texto">
+            <h2>💖</h2>
+            <p>Eres de las cosas más bonitas de mi vida.</p>
+            <p>Gracias por existir, por estar, por ser tú.</p>
+            <p style="margin-top:20px;text-align:right;font-style:italic;">— Tuya, siempre 💌</p>
+          </div>
+          <div class="polaroid izq">
+            <img src="pag3.jpg" alt="Foto 3" onerror="this.style.display='none';this.parentNode.querySelector('.fallback').style.display='flex';">
+            <div class="fallback" style="display:none;width:100%;height:150px;align-items:center;justify-content:center;font-size:50px;background:#fde7f1;">💖</div>
+            <div class="pie">para siempre 💌</div>
+          </div>
+        </div>
+        <div class="sticker" style="top:20px; right:30px;">💕</div>
+        <div class="sticker2" style="bottom:30px; left:30px;">🌹</div>
+      </div>
 
-<img src="pingui.png" class="sticker" style="top:30px; left:40px;">
-<img src="coneji.png" class="sticker2" style="bottom:20px; right:30px;">
-</div>
+    </div>
 
-<!-- PAGINA 3 -->
-<div class="pagina">
-<h2>💖</h2>
-<p>Eres de las cosas más bonitas de mi vida...</p>
-</div>
-
-</div>
-
-<div class="cerrar" onclick="cerrar(event)">✕</div>
-
-</div>
+    <div class="hint">← toca izquierda / toca derecha →</div>
+  </div>
 </div>
 
 <script>
-let pagina=0;
-const contenedor=document.getElementById("paginas");
+let pagina = 0;
+const paginas = document.querySelectorAll(".pagina");
 
 function abrir(){
-  document.getElementById("paginaInterior").style.display="flex";
+  document.getElementById("paginaInterior").style.display = "flex";
 }
 
 function cerrar(e){
   e.stopPropagation();
-  document.getElementById("paginaInterior").style.display="none";
+  document.getElementById("paginaInterior").style.display = "none";
 }
 
-function siguiente(){
-  if(pagina < contenedor.children.length-1){
-    pagina++;
-  }else{
-    pagina=0; // vuelve al inicio
-  }
+function manejarClick(e){
+  const scrap = document.querySelector(".scrapbook");
+  const rect = scrap.getBoundingClientRect();
+  const mitad = rect.left + rect.width / 2;
 
-  contenedor.style.transform = "translateX(-"+(pagina*100)+"%)";
+  if(e.clientX < mitad){
+    // IZQUIERDA - retroceder
+    if(pagina > 0){
+      pagina--;
+      paginas[pagina].classList.remove("pasada");
+    }
+  } else {
+    // DERECHA - avanzar
+    if(pagina < paginas.length){
+      paginas[pagina].classList.add("pasada");
+      pagina++;
+    } else {
+      // animación de cierre y redirige
+      scrap.classList.add("cerrando");
+      setTimeout(()=>{
+        document.getElementById("paginaInterior").style.display = "none";
+        window.location.href = "index.html";
+      }, 1100);
+    }
+  }
+}
+
+// SPARKLES cayendo
+const emojis = ["✨","💖","🫧","🌸","💫"];
+for(let i=0;i<25;i++){
+  const s = document.createElement("div");
+  s.className = "sparkle";
+  s.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  s.style.left = Math.random()*100 + "vw";
+  s.style.fontSize = (14 + Math.random()*22) + "px";
+  s.style.animationDuration = (6 + Math.random()*6) + "s";
+  s.style.animationDelay = Math.random()*5 + "s";
+  document.body.appendChild(s);
 }
 </script>
 
 </body>
 </html>
-```

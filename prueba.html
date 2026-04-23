@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Galaxia de Recuerdos 💜</title>
+
+<style>
+*{margin:0;padding:0;}
+
+body{
+    overflow:hidden;
+    background:black;
+    font-family: 'Segoe UI';
+}
+
+/* canvas */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+/* tarjeta */
+.card{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    width:320px;
+    background:rgba(20,20,40,0.95);
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 0 40px #a855f7;
+    color:white;
+    text-align:center;
+    transition:0.4s;
+}
+
+.card.active{
+    transform:translate(-50%,-50%) scale(1);
+}
+
+.card img{
+    width:100%;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+button{
+    margin-top:10px;
+    padding:6px 12px;
+    border:none;
+    border-radius:10px;
+    background:#a855f7;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<canvas class="webgl"></canvas>
+
+<div class="card" id="card">
+    <h2 id="title"></h2>
+    <p id="text"></p>
+    <img id="img">
+    <button onclick="closeCard()">Cerrar 💜</button>
+</div>
+
+<script type="module">
+
+import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
+import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js";
+
+const canvas = document.querySelector('canvas.webgl');
+const scene = new THREE.Scene();
+
+/* GALAXIA */
+const parameters = {
+    count: 60000,
+    size: 0.015,
+    radius: 5,
+    branches: 4,
+    spin: 2,
+    randomness: 0.3,
+    randomnessPower: 3,
+    insideColor: '#ff90ff',
+    outsideColor: '#4f8cff'
+};
+
+let geometry = new THREE.BufferGeometry();
+let positions = new Float32Array(parameters.count * 3);
+let colors = new Float32Array(parameters.count * 3);
+
+const colorInside = new THREE.Color(parameters.insideColor);
+const colorOutside = new THREE.Color(parameters.outsideColor);
+
+for(let i=0;i<parameters.count;i++){
+
+    const i3 = i*3;
+    const radius = Math.random()*parameters.radius;
+    const spinAngle = radius*parameters.spin;
+    const branchAngle = (i%parameters.branches)/parameters.branches*Math.PI*2;
+
+    positions[i3] = Math.cos(branchAngle+spinAngle)*radius;
+    positions[i3+1] = (Math.random()-0.5)*0.5;
+    positions[i3+2] = Math.sin(branchAngle+spinAngle)*radius;
+
+    const mixedColor = colorInside.clone();
+    mixedColor.lerp(colorOutside, radius/parameters.radius);
+
+    colors[i3] = mixedColor.r;
+    colors[i3+1] = mixedColor.g;
+    colors[i3+2] = mixedColor.b;
+}
+
+geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+geometry.setAttribute('color', new THREE.BufferAttribute(colors,3));
+
+const material = new THREE.PointsMaterial({
+    size: parameters.size,
+    vertexColors:true,
+    blending: THREE.AdditiveBlending,
+    transparent:true
+});
+
+const galaxy = new THREE.Points(geometry, material);
+scene.add(galaxy);
+
+/* MEMORIAS */
+const memories = [
+    {
+        position: [2,0,1],
+        title: "Nuestro inicio 💫",
+        text: "Aquí empezó todo... contigo 💖",
+        img: "https://picsum.photos/300/200?1"
+    },
+    {
+        position: [-2,0,-1],
+        title: "Risas 😂",
+        text: "No podíamos parar de reír 😭💜",
+        img: "https://picsum.photos/300/200?2"
+    },
+    {
+        position: [1,0,-2],
+        title: "Momento especial ✨",
+        text: "Uno de mis favoritos 😍🌌",
+        img: "https://picsum.photos/300/200?3"
+    }
+];
+
+const spheres = [];
+
+memories.forEach(mem=>{
+    const geo = new THREE.SphereGeometry(0.07,16,16);
+    const mat = new THREE.MeshBasicMaterial({color:"#ffffff"});
+    const sphere = new THREE.Mesh(geo, mat);
+
+    sphere.position.set(...mem.position);
+    sphere.userData = mem;
+
+    scene.add(sphere);
+    spheres.push(sphere);
+});
+
+/* RAYCASTER */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener('click', (event)=>{
+    mouse.x = (event.clientX / window.innerWidth)*2 -1;
+    mouse.y = -(event.clientY / window.innerHeight)*2 +1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(spheres);
+
+    if(intersects.length > 0){
+        const data = intersects[0].object.userData;
+        openCard(data);
+    }
+});
+
+/* CARD */
+function openCard(mem){
+    document.getElementById("title").innerText = mem.title;
+    document.getElementById("text").innerText = mem.text;
+    document.getElementById("img").src = mem.img;
+    document.getElementById("card").classList.add("active");
+}
+
+window.closeCard = function(){
+    document.getElementById("card").classList.remove("active");
+}
+
+/* CÁMARA */
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+};
+
+const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 100);
+camera.position.set(4,2,4);
+scene.add(camera);
+
+/* CONTROLES */
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
+/* RENDER */
+const renderer = new THREE.WebGLRenderer({canvas});
+renderer.setSize(sizes.width, sizes.height);
+
+/* ANIMACIÓN */
+const clock = new THREE.Clock();
+
+function animate(){
+    const time = clock.getElapsedTime();
+
+    galaxy.rotation.y += 0.001;
+
+    spheres.forEach(s=>{
+        s.scale.setScalar(1 + Math.sin(time*2)*0.2);
+    });
+
+    camera.position.x = Math.cos(time*0.15)*5;
+    camera.position.z = Math.sin(time*0.15)*5;
+    camera.lookAt(0,0,0);
+
+    controls.update();
+    renderer.render(scene,camera);
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
